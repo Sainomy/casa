@@ -46,6 +46,14 @@ const LoginScreen = () => {
       })
       .catch((error) => alert(error.message));
   };
+  const handleSingOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigation.replace("Login");
+      })
+      .catch((error) => alert(error.message));
+  };
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -76,6 +84,12 @@ const LoginScreen = () => {
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity
+        onPress={handleSingOut}
+        style={[styles.button, styles.buttonOutline]}
+      >
+        <Text style={styles.buttonOutlineText}>Sair</Text>
+      </TouchableOpacity>
     </KeyboardAvoidingView>
   );
 };

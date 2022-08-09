@@ -10,45 +10,48 @@ import MeuEstilo from "../meuestilo";
 import { auth, firestore } from "../firebase";
 
 const Escrever = () => {
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const myref = firestore.collection("Usuario").doc(auth.currentUser.id);
+  const [endereco, setEndereco] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const ref = firestore
+    .collection("Usuario")
+    .doc(auth.currentUser.uid)
+    .collection("Casa")
+    .doc();
 
   const enviarDados = () => {
-    myref
+    ref
       .set({
-        nome: nome,
-        email: email,
-        senha: senha,
-        id: myref.id,
+        endereco: endereco,
+        latitude: latitude,
+        longitude: longitude,
+        id: ref.id,
       })
       .then(() => {
-        alert("Usuario " + nome + " Adicionado com Sucesso");
+        alert("Casa " + endereco + " Adicionado com Sucesso");
       });
   };
-
   const limparFormulario = () => {};
 
   return (
     <KeyboardAvoidingView style={MeuEstilo.containerlistar} behavior="padding">
       <View style={MeuEstilo.inputcontainerlistar}>
         <TextInput
-          placeholder="Nome"
-          value={nome}
-          onChangeText={(text) => setNome(text)}
+          placeholder="Endereco"
+          value={endereco}
+          onChangeText={(text) => setEndereco(text)}
           style={MeuEstilo.input}
         />
         <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
+          placeholder="Latitude"
+          value={latitude}
+          onChangeText={(text) => setLatitude(text)}
           style={MeuEstilo.input}
         />
         <TextInput
-          placeholder="Senha"
-          value={senha}
-          onChangeText={(text) => setSenha(text)}
+          placeholder="Longitude"
+          value={longitude}
+          onChangeText={(text) => setLongitude(text)}
           style={MeuEstilo.input}
         />
       </View>

@@ -13,25 +13,27 @@ import {
 import { auth, firestore } from "../firebase";
 import MeuEstilo from "../meuestilo";
 
-const ListaComFiltroUsuarios = () => {
+const ListaComFiltroCasas = () => {
   const [search, setSearch] = useState("");
   const [dadosFiltrados, setdadosFiltrados] = useState([]);
-  const [usuarios, setUsuarios] = useState([]);
+  const [casas, setCasas] = useState([]);
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
 
   useEffect(() => {
     const subscriber = firestore
       .collection("Usuario")
+      .doc(auth.currentUser.uid)
+      .collection("Casa")
       .onSnapshot((querySnapshot) => {
-        const usuarios = [];
+        const casas = [];
         querySnapshot.forEach((documentSnapshot) => {
-          usuarios.push({
+          casas.push({
             ...documentSnapshot.data(),
-            key: documentSnapshot.nome,
+            key: documentSnapshot.endereco,
           });
         });
-        setdadosFiltrados(usuarios);
-        setUsuarios(usuarios);
+        setdadosFiltrados(casas);
+        setCasas(casas);
         setLoading(false);
       });
     // Unsubscribe from events when no longer in use
@@ -44,9 +46,9 @@ const ListaComFiltroUsuarios = () => {
 
   const searchFilter = (text) => {
     if (text) {
-      const newData = usuarios.filter(function (item) {
-        if (item.nome) {
-          const itemData = item.nome.toUpperCase();
+      const newData = casas.filter(function (item) {
+        if (item.endereco) {
+          const itemData = item.endereco.toUpperCase();
           const textData = text.toUpperCase();
           return itemData.indexOf(textData) > -1;
         }
@@ -54,7 +56,7 @@ const ListaComFiltroUsuarios = () => {
       setdadosFiltrados(newData);
       setSearch(text);
     } else {
-      setdadosFiltrados(usuarios);
+      setdadosFiltrados(casas);
       setSearch(text);
     }
   };
@@ -64,14 +66,14 @@ const ListaComFiltroUsuarios = () => {
       <Text style={MeuEstilo.item} onPress={() => getItem(item)}>
         {/* {item.id}
         {' - '} */}
-        {item.nome.toUpperCase()}
+        {item.endereco.toUpperCase()}
       </Text>
     );
   };
 
   const getItem = (item) => {
-    // alert('Id : ' + item.id + '\n\nTarefa : ' + item.nome + '\n\nCompletada: ' + item.completed);
-    alert("Nome : " + item.nome);
+    // alert('Id : ' + item.id + '\n\nTarefa : ' + item.endereco + '\n\nCompletada: ' + item.completed);
+    alert("Nome : " + item.endereco);
   };
 
   return (
@@ -86,7 +88,7 @@ const ListaComFiltroUsuarios = () => {
         />
         <FlatList
           data={dadosFiltrados}
-          keyExtractor={(item) => item.nome}
+          keyExtractor={(item) => item.endereco}
           renderItem={ItemView}
         />
       </View>
@@ -115,4 +117,4 @@ const ListaComFiltroUsuarios = () => {
 //   },
 // });
 
-export default ListaComFiltroUsuarios;
+export default ListaComFiltroCasas;

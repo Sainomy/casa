@@ -13,20 +13,22 @@ import MeuEstilo from "../meuestilo";
 
 const Listar = () => {
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
-  const [usuarios, setUsuarios] = useState([]); // Initial empty array of users
+  const [casas, setCasas] = useState([]); // Initial empty array of users
 
   useEffect(() => {
     const subscriber = firestore
       .collection("Usuario")
+      .doc(auth.currentUser.uid)
+      .collection("Casa")
       .onSnapshot((querySnapshot) => {
-        const usuarios = [];
+        const casas = [];
         querySnapshot.forEach((documentSnapshot) => {
-          usuarios.push({
+          casas.push({
             ...documentSnapshot.data(),
-            key: documentSnapshot.nome,
+            key: documentSnapshot.endereco,
           });
         });
-        setUsuarios(usuarios);
+        setCasas(casas);
         setLoading(false);
       });
     // Unsubscribe from events when no longer in use
@@ -37,43 +39,43 @@ const Listar = () => {
     return <ActivityIndicator />;
   }
 
-  const Item = ({ nome }) => (
+  const Item = ({ endereco }) => (
     <View style={MeuEstilo.item}>
-      <Text style={MeuEstilo.title}>{nome}</Text>
+      <Text style={MeuEstilo.title}>{endereco}</Text>
     </View>
   );
 
-  const renderItem = ({ item }) => <Item nome={item.nome} />;
+  const renderItem = ({ item }) => <Item endereco={item.endereco} />;
 
   // const getCelulares= ()=>{
-  //   setUsuarios([]);
+  //   setCasas([]);
   //   firestore
-  //   .collection('Usuario')
+  //   .collection('Casa')
   //   .onSnapshot(querySnapshot=>{
   //     //querySnapshot.forEach(documentSnapshot=>{
   //     querySnapshot.docChanges().forEach(change=>{
 
-  //       usuarios.push({...change.doc.data(),
-  //         key: change.nome,
+  //       casas.push({...change.doc.data(),
+  //         key: change.endereco,
   //       });
   //     });
-  //     setUsuarios(usuarios);
+  //     setCasas(casas);
   //     // setCarregando(false);
   //   });
   //   // return()=>subscriber();
   // };
 
-  // // const observador = firestore.collection('Usuario')
+  // // const observador = firestore.collection('Casa')
   // // .onSnapshot(querySnapshot => {
   // //   querySnapshot.docChanges().forEach(change => {
   // //     if (change.type === 'added') {
-  // //       console.log('Novo Usuario: ', change.doc.data());
+  // //       console.log('Novo Casa: ', change.doc.data());
   // //     }
   // //     if (change.type === 'modified') {
-  // //       console.log('Usuario modificado: ', change.doc.data());
+  // //       console.log('Casa modificado: ', change.doc.data());
   // //     }
   // //     if (change.type === 'removed') {
-  // //       console.log('Usuario removido: ', change.doc.data());
+  // //       console.log('Casa removido: ', change.doc.data());
   // //     }
   // //   });
   // // });
@@ -81,9 +83,9 @@ const Listar = () => {
   return (
     <SafeAreaView style={MeuEstilo.containerlistar}>
       <FlatList
-        data={usuarios}
+        data={casas}
         renderItem={renderItem}
-        keyExtractor={(item) => item.nome}
+        keyExtractor={(item) => item.endereco}
         // refreshing={true}
         // onRefresh={() => {
         //   getCelulares();

@@ -7,7 +7,7 @@ import { auth, firestore } from "../firebase";
 import Escrever from "./Escrever";
 import Listar from "./Listar";
 import ListarComFiltro from "./ListarComFiltro";
-import ListarComFiltroUsuarios from "./ListarComFiltroUsuarios";
+import ListarComFiltroCasas from "./ListarComFiltroCasas";
 import Escrevermapa from "./Escrevermapa";
 
 const Drawer = createDrawerNavigator();
@@ -23,7 +23,7 @@ function ListarScreen({ navigation }) {
 }
 
 function ListaComFiltroUsuariosScreen({ navigation }) {
-  return <ListarComFiltroUsuarios></ListarComFiltroUsuarios>;
+  return <ListarComFiltroCasas></ListarComFiltroCasas>;
 }
 
 function ListaComFiltroScreen({ navigation }) {
@@ -35,15 +35,10 @@ const HomeScreen = () => {
 
   return (
     <Drawer.Navigator initialRouteName="Escrever">
-      <Drawer.Screen name="Usuario" component={EscreverScreen} />
-      <Drawer.Screen name="Casa" component={EscrevermapaScreen} />
+      <Drawer.Screen name="Casa" component={EscreverScreen} />
       <Drawer.Screen name="Listar" component={ListarScreen} />
       <Drawer.Screen
-        name="Lista Com Filtro "
-        component={ListaComFiltroScreen}
-      />
-      <Drawer.Screen
-        name="Lista Com Filtro Usuario"
+        name="Lista Com Filtro Casas"
         component={ListaComFiltroUsuariosScreen}
       />
     </Drawer.Navigator>

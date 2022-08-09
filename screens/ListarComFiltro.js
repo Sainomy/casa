@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+/*import React, { useState, useEffect } from "react";
 import MeuEstilo from "../meuestilo";
 
 import {
@@ -106,4 +106,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ListaComFiltro;
+export default ListaComFiltro;*/
